@@ -54,26 +54,37 @@ def main_url(url):
             div_len += 1
             j1 =2
             need_divs.append(each)
-        #     print('*'*100)
-        #     print(each)
-        #     print('*' * 10)
-        #     print(each.text.strip())
-        #     print(each)
     print("相关div有%s层" % div_len)
     # 当相关div数量大于3个的时候，选择text第三层的div进行爬取
+    link_names =[]
+    link_urls =[]
     if j1 != 0:
         if div_len >= 3:
             a_div = need_divs[2]
-            link_text = a_div.text
-            print(link_text)
+            div_as = a_div.find_all('a')
+            for div_a in div_as:
+                r1 = u'[a-zA-Z0-9’!"#$%&\'()*+,-./:;<=>?@，。?★、…【】《》？“”‘’！[\\]^_`{|}~]+'
+                link_name = re.sub(r1, '', str(div_a))
+                print(link_name)
+                print(div_a['href'])
+                link_names.append(link_name)
+                link_urls.append(div_a['href'])
+            print(link_names, link_urls)
         else:
             a_div = need_divs[-1]
-            link_text = a_div.text
-            print(link_text)
+            div_as = a_div.find_all('a')
+            for div_a in div_as:
+                r1 = u'[a-zA-Z0-9’!"#$%&\'()*+,-./:;<=>?@，。?★、…【】《》？“”‘’！[\\]^_`{|}~]+'
+                link_name = re.sub(r1, '', str(div_a))
+                print(link_name)
+                print(div_a['href'])
+                link_names.append(link_name)
+                link_urls.append(div_a['href'])
+            print(link_names,link_urls)
     else:
-        link_text = ''
+        print("没有相关链接")
     # j1代表相关链接or友情链接；a_div为内容
-    return j1,link_text
+    return j1,link_names,link_urls
 
     # except:
     #     print("URL解析错误")
@@ -94,7 +105,7 @@ def save_xls():
     link_book = xlwt.Workbook(encoding='utf-8', style_compression=0)
     link_sheet = link_book.add_sheet('test', cell_overwrite_ok=True)
     i = 0
-    titles = ['网站序号', '网站名称', '网站url', '网站链接情况','链接内容']
+    titles = ['网站序号', '网站名称', '网站url', '网站链接情况','链接数量','链接名称','链接URL']
     for title in titles:
         link_sheet.write(0, i, title)
         i += 1
@@ -102,6 +113,7 @@ def save_xls():
 
 # 从base_list中遍历初始官媒的URL和名称
 def get_url():
+    # urls = ['','http://www.people.com.cn']
     urls = base_list.all_urls
     webnames =base_list.all_webname
     # 创建xls
@@ -111,7 +123,7 @@ def get_url():
         webname = webnames[i]
         print("正在爬取“%s”的相关链接" % webname)
         # 解析URL获取链接
-        (j1,link_text)=main_url(url)
+        (j1,link_names,link_urls)=main_url(url)
         print('*' * 100)
         # 存入xls
         if j1 == 0:
@@ -124,7 +136,9 @@ def get_url():
         link_sheet.write(i, 1, webname)
         link_sheet.write(i, 2, url)
         link_sheet.write(i, 3, link_state)
-        link_sheet.write(i, 4, link_text)
+        link_sheet.write(i, 4, len(link_urls))
+        link_sheet.write(i, 5, link_names)
+        link_sheet.write(i, 6, link_urls)
         time.sleep(1)
     link_book.save(link_path)
 
