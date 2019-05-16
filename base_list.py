@@ -1,8 +1,11 @@
 # 网站列表，19个
-all_webname = ['选择所有网站', '人民网', '教育部政府门户网站', '新华网', '中国政府网',  '光明网', '央视网', '南方都市报', '新京报', '南方周末', '澎湃新闻网',
+all_webname = ['人民网', '教育部政府门户网站', '新华网', '中国政府网',  '光明网', '央视网', '南方都市报', '新京报', '南方周末', '澎湃新闻网',
                '东方网', '财经网', '经济观察网', '财新网', '求是网', '中国青年报', '瞭望东方', '半月谈', '参考消息']
-
-all_urls = ['',
+# all_urls = [
+#     'http://www.people.com.cn',    #01 人民网
+#     'http://www.moe.gov.cn',
+#     'http://www.xinhuanet.com']
+all_urls = [
     'http://www.people.com.cn',    #01 人民网
     'http://www.moe.gov.cn',
     'http://www.xinhuanet.com',
