@@ -82,8 +82,10 @@ def get_url(urls, webnames, linkrank, linkid, all_urls):
             link_state = "有"
         elif j1 == 2:
             link_state = "无法获取"
-        else:
+        elif j1 == 3:
             link_state = "已爬取"
+        elif j1 == 4:
+            link_state = "有（注释）"
         # 存入xls，只能最后存入
         link_sheet.write(linkid, 0, linkid)
         link_sheet.write(linkid, 1, webname)
@@ -126,25 +128,25 @@ def loop_url(urls, webnames, linkrank, linkid, ir):
                 linkrank = ranks_1[i1]
                 # 此处urls为0-X的子链接list，返回的urls_2为0-X-X的2层子链接list
                 (urls_2, webnames_2, linkid, ranks_2, all_urls) = get_url(urls, webnames, linkrank, linkid, all_urls)
-                for i2 in range(0, len(urls_2)):
-                    print("*" * 100, "正在爬取%s的子链接,层级为03" % linkrank, "*" * 100)
-                    print("0-%s-X中的X" % i2, len(urls_2))
-                    urls = urls_2[i2]    #此处urls为0-X-X的子链接list
-                    webnames = webnames_2[i2]
-                    linkrank = ranks_2[i2]
-                    # 此处urls为0-x-x的2层子链list
-                    (urls_3, webnames_3, linkid, ranks_3, all_urls) = get_url(urls, webnames, linkrank, linkid, all_urls)
-                    for i3 in range(0, len(urls_3)):
-                        print("*" * 100, "正在爬取%s的子链接,层级为04" % linkrank, "*" * 100)
-                        print("0-X-%s-x中的X" % i3, len(urls_3))
-                        try:
-                            urls = urls_3[i3]  # 此处urls为0-X-X的子链接list
-                            webnames = webnames_3[i3]
-                            linkrank = ranks_3[i3]
-                            # 此处urls为0-x-x的2层子链list
-                            (urls_4, webnames_4, linkid, ranks_4, all_urls) = get_url(urls, webnames, linkrank, linkid, all_urls)
-                        except:
-                            print("爬取失败")
+                # for i2 in range(0, len(urls_2)):
+                #     print("*" * 100, "正在爬取%s的子链接,层级为03" % linkrank, "*" * 100)
+                #     print("0-%s-X中的X" % i2, len(urls_2))
+                #     urls = urls_2[i2]    #此处urls为0-X-X的子链接list
+                #     webnames = webnames_2[i2]
+                #     linkrank = ranks_2[i2]
+                #     # 此处urls为0-x-x的2层子链list
+                #     (urls_3, webnames_3, linkid, ranks_3, all_urls) = get_url(urls, webnames, linkrank, linkid, all_urls)
+                #     for i3 in range(0, len(urls_3)):
+                #         print("*" * 100, "正在爬取%s的子链接,层级为04" % linkrank, "*" * 100)
+                #         print("0-X-%s-x中的X" % i3, len(urls_3))
+                #         try:
+                #             urls = urls_3[i3]  # 此处urls为0-X-X的子链接list
+                #             webnames = webnames_3[i3]
+                #             linkrank = ranks_3[i3]
+                #             # 此处urls为0-x-x的2层子链list
+                #             (urls_4, webnames_4, linkid, ranks_4, all_urls) = get_url(urls, webnames, linkrank, linkid, all_urls)
+                #         except:
+                #             print("爬取失败")
             print("*" * 100, "所有链接爬取成功！！！", "*" * 100)
             ir += 1
 
